@@ -10,6 +10,35 @@ namespace TopologicalSorter
         private Dictionary<Object, List<Object>> _sortingDict;
         private bool _isListingDependents;
 
+        public NodeListBuilder(int[,] array, Object[] keyArray = null, bool isListingDependents = true)
+        {
+            this._isListingDependents = isListingDependents;
+            _sortingDict = new Dictionary<Object, List<Object>>();
+
+            int arraySize = array.GetLength(1);
+
+            if (keyArray == null)
+            {
+                var temparr = Enumerable.Range(0, arraySize).ToArray();
+                keyArray = Array.ConvertAll<int, Object>(temparr, x => (Object)x);
+            }
+
+            for (int i = 0; i < array.GetLength(1); i++)
+            {
+                
+                var key = keyArray[i];
+                var list = new List<Object>();
+
+                for (int j = 0; j < array.GetLength(0); j++)
+                {
+                    if (array[j, i] != 0)
+                        list.Add(keyArray[j]);
+                }
+
+                _sortingDict.Add(key, list);
+            }
+        }
+
         public NodeListBuilder(Dictionary<Object, List<Object>> relationalDictionary, bool isListingDependents = true)
         {
             this._sortingDict = relationalDictionary;
@@ -54,8 +83,9 @@ namespace TopologicalSorter
 
                 foreach (Object obj in _sortingDict[key])
                 {
-                    var node = nodeList.Nodes.Single(n => n.Identifier.Equals(obj));
-                    mainNode.Neighbors.Add(node);
+                    var node = nodeList.Nodes.SingleOrDefault(n => n.Identifier.Equals(obj));
+                    if (node != null)
+                        mainNode.Neighbors.Add(node);
                 }
             }
 

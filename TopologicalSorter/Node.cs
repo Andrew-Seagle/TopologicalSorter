@@ -18,10 +18,10 @@ namespace TopologicalSorter
         // public List<Node> Dependents { get; set; }
         public Usage SortStatus { get; set; }
 
-        public Node(Object identifier, List<Node> neighbors = null, bool hasDepentsList = true)
+        public Node(Object identifier, bool hasDepentsList = true)
         {
             this.Identifier = identifier;
-            this.Neighbors = Neighbors;
+            this.Neighbors = new List<Node>();
         }
     }
 }
