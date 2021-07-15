@@ -6,28 +6,28 @@ namespace TopologicalSorter
 {
     class NodeListBuilder
     {
-        private Dictionary<Object, Tuple<List<Object>, List<Object>>> _givenDict;
-        private Dictionary<Object, List<Object>> _sortingDict;
+        private Dictionary<object, Tuple<List<object>, List<object>>> _givenDict;
+        private Dictionary<object, List<object>> _sortingDict;
         private bool _isListingDependents;
 
-        public NodeListBuilder(int[,] array, Object[] keyArray = null, bool isListingDependents = true)
+        public NodeListBuilder(int[,] array, object[] keyArray = null, bool isListingDependents = true)
         {
             this._isListingDependents = isListingDependents;
-            _sortingDict = new Dictionary<Object, List<Object>>();
+            _sortingDict = new Dictionary<object, List<object>>();
 
             int arraySize = array.GetLength(1);
 
             if (keyArray == null)
             {
                 var temparr = Enumerable.Range(0, arraySize).ToArray();
-                keyArray = Array.ConvertAll<int, Object>(temparr, x => (Object)x);
+                keyArray = Array.ConvertAll<int, object>(temparr, x => (object)x);
             }
 
             for (int i = 0; i < array.GetLength(1); i++)
             {
                 
                 var key = keyArray[i];
-                var list = new List<Object>();
+                var list = new List<object>();
 
                 for (int j = 0; j < array.GetLength(0); j++)
                 {
@@ -39,12 +39,12 @@ namespace TopologicalSorter
             }
         }
 
-        public NodeListBuilder(Dictionary<Object, List<Object>> relationalDictionary, bool isListingDependents = true)
+        public NodeListBuilder(Dictionary<object, List<object>> relationalDictionary, bool isListingDependents = true)
         {
             this._sortingDict = relationalDictionary;
             this._isListingDependents = isListingDependents;
         }
-        public NodeListBuilder(Dictionary<Object, Tuple<List<Object>, List<Object>>> relationalDictionary)
+        public NodeListBuilder(Dictionary<object, Tuple<List<object>, List<object>>> relationalDictionary)
         {
             this._givenDict = relationalDictionary;
 
@@ -70,18 +70,18 @@ namespace TopologicalSorter
         {
             var nodeList = new NodeList(_isListingDependents);
 
-            foreach (Object key in _sortingDict.Keys)
+            foreach (object key in _sortingDict.Keys)
             {
                 nodeList.Add(new Node(key));
             }
 
-            foreach (Object key in _sortingDict.Keys)
+            foreach (object key in _sortingDict.Keys)
             {
                 var neighbors = new List<Node>();
 
                 var mainNode = nodeList.Nodes.Single(n => n.Identifier.Equals(key));
 
-                foreach (Object obj in _sortingDict[key])
+                foreach (object obj in _sortingDict[key])
                 {
                     var node = nodeList.Nodes.SingleOrDefault(n => n.Identifier.Equals(obj));
                     if (node != null)
@@ -92,7 +92,7 @@ namespace TopologicalSorter
             return nodeList;
         }
 
-        private int CheckLists(Dictionary<Object, Tuple<List<Object>, List<Object>>> basicRelationships)
+        private int CheckLists(Dictionary<object, Tuple<List<object>, List<object>>> basicRelationships)
         {
             int statusID = 0;
             bool isList1NoE = true;
@@ -116,16 +116,16 @@ namespace TopologicalSorter
             return statusID;
         }
 
-        private Dictionary<Object, List<Object>> NullOrEmptyListRemover(
-            Dictionary<Object, Tuple<List<Object>, List<Object>>> originalDictionary,
+        private Dictionary<object, List<object>> NullOrEmptyListRemover(
+            Dictionary<object, Tuple<List<object>, List<object>>> originalDictionary,
             int tupleItemNumber)
         {
-            var newDictionary = new Dictionary<Object, List<Object>>();
+            var newDictionary = new Dictionary<object, List<object>>();
 
             foreach (var entry in originalDictionary)
             {
                 var key = entry.Key;
-                List<Object> value = null;
+                List<object> value = null;
 
                 if (tupleItemNumber == 1)
                     value = entry.Value.Item1;

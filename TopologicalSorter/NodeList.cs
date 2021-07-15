@@ -19,6 +19,7 @@ namespace TopologicalSorter
 
         public void Add(Node node)
         {
+            node.SortStatus = Usage.Unsorted;
             Nodes.Add(node);
         }
     }
