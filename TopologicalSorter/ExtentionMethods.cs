@@ -3,9 +3,9 @@ using System.Linq;
 
 namespace TopologicalSorter
 {
-    public static class ExtentionMethods
+    internal static class ExtentionMethods
     {
-        public static bool NullOrEmpty<T>(this IEnumerable<T> collection)
+        internal static bool NullOrEmpty<T>(this IEnumerable<T> collection)
         {
             if (collection == null)
                 return true;

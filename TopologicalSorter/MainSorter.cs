@@ -4,11 +4,11 @@ using System.Collections.Generic;
 
 namespace TopologicalSorter
 {
-    static class Sorter
+    internal static class MainSorter
     {
         private static List<Node> _sortedList; 
 
-        public static object[] TopologicalSort(NodeList nodeList)
+        internal static object[] TopologicalSort(NodeList nodeList)
         {
             _sortedList = new List<Node>();
 
